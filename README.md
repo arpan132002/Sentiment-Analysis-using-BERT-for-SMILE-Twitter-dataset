@@ -14,6 +14,45 @@ XLNet: Doesn't do masking but uses permutation to capture bidirectional context.
 
 > MT-DNN: Uses BERT with additional multi-task training on NLU tasks. Cross-task data leads to regularization and more general representations.
 
+## Model Architecture
+Here I use pre-trained BERT for binary sentiment analysis on Stanford Sentiment Treebank.
+
+BertEmbeddings: Input embedding layer
+BertEncoder: The 12 BERT attention layers
+Classifier: Our multi-label classifier with out_features=2, each corresponding to our 2 labels
+- BertModel
+    - embeddings: BertEmbeddings
+      	- word_embeddings: Embedding(28996, 768)
+      	- position_embeddings: Embedding(512, 768)
+      	- token_type_embeddings: Embedding(2, 768)
+      	- LayerNorm: FusedLayerNorm(torch.Size([768])
+	- dropout: Dropout = 0.1
+    - encoder: BertEncoder
+      	- BertLayer
+          	- attention: BertAttention
+            		- self: BertSelfAttention
+              		- query: Linear(in_features=768, out_features=768, bias=True)
+              		- key: Linear(in_features=768, out_features=768, bias=True)
+               		- value: Linear(in_features=768, out_features=768, bias=True)
+              		- dropout: Dropout = 0.1
+            	- output: BertSelfOutput(
+              		- dense: Linear(in_features=768, out_features=768, bias=True)
+              		- LayerNorm: FusedLayerNorm(torch.Size([768]), 
+              		- dropout: Dropout =0.1
+
+          	- intermediate: BertIntermediate(
+            		- dense): Linear(in_features=768, out_features=3072, bias=True)
+          
+          	- output: BertOutput
+            		- dense: Linear(in_features=3072, out_features=768, bias=True)
+            		- LayerNorm: FusedLayerNorm(torch.Size([768])
+            		- dropout: Dropout =0.1
+ 	- pooler: BertPooler
+      		- dense: Linear(in_features=768, out_features=768, bias=True)
+      		- activation: Tanh()
+	- dropout: Dropout =0.1
+ 	- classifier: Linear(in_features=768, out_features = 2, bias=True)
+
 ## __Dataset__
 > We will use the [__SMILE Twitter DATASET__](https://doi.org/10.6084/m9.figshare.3187909.v2)
 
