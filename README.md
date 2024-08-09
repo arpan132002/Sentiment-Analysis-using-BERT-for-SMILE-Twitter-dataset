@@ -21,7 +21,7 @@ Here I use pre-trained BERT for binary sentiment analysis on Stanford Sentiment 
 - BertEncoder: The 12 BERT attention layers
 - Classifier: Our multi-label classifier with out_features=2, each corresponding to our 2 labels
 
-- BertModel
+BertModel:
     - embeddings: BertEmbeddings
       	- word_embeddings: Embedding(28996, 768)
       	- position_embeddings: Embedding(512, 768)
