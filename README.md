@@ -17,9 +17,10 @@ XLNet: Doesn't do masking but uses permutation to capture bidirectional context.
 ## Model Architecture
 Here I use pre-trained BERT for binary sentiment analysis on Stanford Sentiment Treebank.
 
-BertEmbeddings: Input embedding layer
-BertEncoder: The 12 BERT attention layers
-Classifier: Our multi-label classifier with out_features=2, each corresponding to our 2 labels
+- BertEmbeddings: Input embedding layer
+- BertEncoder: The 12 BERT attention layers
+- Classifier: Our multi-label classifier with out_features=2, each corresponding to our 2 labels
+
 - BertModel
     - embeddings: BertEmbeddings
       	- word_embeddings: Embedding(28996, 768)
